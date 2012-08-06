@@ -172,6 +172,11 @@ AC_ARG_ENABLE(qmimodem, AC_HELP_STRING([--disable-qmimodem],
 					[enable_qmimodem=${enableval}])
 AM_CONDITIONAL(QMIMODEM, test "${enable_qmimodem}" != "no")
 
+AC_ARG_ENABLE(samsungipc, AC_HELP_STRING([--disable-samsungipcmodem],
+				[disable Samsung IPC modem support]),
+					[enable_samsungipc=${enableval}])
+AM_CONDITIONAL(SAMSUNGIPCMODEM, test "${enable_samsungipc}" != "no")
+
 AC_ARG_ENABLE(bluetooth, AC_HELP_STRING([--disable-bluetooth],
 				[disable BlueZ 4 and BlueZ 5 plugins support]),
 					[enable_bluetooth=${enableval}])
