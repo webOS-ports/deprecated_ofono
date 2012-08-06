@@ -183,6 +183,13 @@ builtin_modules += gobi
 builtin_sources += plugins/gobi.c
 endif
 
+if SAMSUNGIPCMODEM
+builtin_modules += samsungipcmodem
+builtin_sources += \
+	drivers/samsungipcmodem/samsungipcmodem.c \
+	drivers/samsungipcmodem/samsungipcmodem.h
+endif
+
 if ATMODEM
 builtin_modules += atmodem
 builtin_sources += $(gatchat_sources) \
