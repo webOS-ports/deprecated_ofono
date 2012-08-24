@@ -391,6 +391,11 @@ builtin_sources += plugins/ste.c
 builtin_modules += stemgr
 builtin_sources += plugins/stemgr.c
 
+if SAMSUNGIPCMODEM
+builtin_modules += samsungipc
+builtin_sources += plugins/samsungipc.c
+endif
+
 builtin_modules += caif
 builtin_sources += plugins/caif.c
 
