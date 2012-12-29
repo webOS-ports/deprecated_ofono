@@ -231,6 +231,14 @@ static void add_sim900(struct ofono_modem *modem,
 	ofono_modem_register(modem);
 }
 
+static void add_samsungipc(struct ofono_modem *modem,
+					struct udev_device *udev_device)
+{
+	DBG("modem %p", modem);
+
+	ofono_modem_register(modem);
+}
+
 static void add_modem(struct udev_device *udev_device)
 {
 	struct ofono_modem *modem;
@@ -313,6 +321,8 @@ done:
 		add_sim900(modem, udev_device);
 	else if (g_strcmp0(driver, "wavecom") == 0)
 		add_wavecom(modem, udev_device);
+	else if (g_strcmp0(driver, "samsungipc") == 0)
+		add_samsungipc(modem, udev_device);
 }
 
 static gboolean devpath_remove(gpointer key, gpointer value, gpointer user_data)
