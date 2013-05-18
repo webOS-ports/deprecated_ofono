@@ -1,8 +1,9 @@
 /*
  *
- *  oFono - Open Source Telephony
+ *  oFono - Open Source Telephony - RIL Modem Support
  *
  *  Copyright (C) 2008-2011  Intel Corporation. All rights reserved.
+ *  Copyright (C) 2012 Canonical Ltd.
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License version 2 as
@@ -19,26 +20,44 @@
  *
  */
 
-#ifdef TEMP_FAILURE_RETRY
-#define TFR TEMP_FAILURE_RETRY
-#else
-#define TFR
+#ifdef HAVE_CONFIG_H
+#include <config.h>
 #endif
 
-#include <sys/types.h>
-#include <fcntl.h>
+#include <glib.h>
+#include <gril.h>
 
-int create_dirs(const char *filename, const mode_t mode);
+#define OFONO_API_SUBJECT_TO_CHANGE
+#include <ofono/plugin.h>
+#include <ofono/log.h>
 
-ssize_t read_file(unsigned char *buffer, size_t len,
-			const char *path_fmt, ...)
-	__attribute__((format(printf, 3, 4)));
+#include "rilmodem.h"
 
-ssize_t write_file(const unsigned char *buffer, size_t len, mode_t mode,
-			const char *path_fmt, ...)
-	__attribute__((format(printf, 4, 5)));
+static int rilmodem_init(void)
+{
+	DBG("");
 
-GKeyFile *storage_open(const char *imsi, const char *store);
-void storage_sync(const char *imsi, const char *store, GKeyFile *keyfile);
-void storage_close(const char *imsi, const char *store, GKeyFile *keyfile,
-			gboolean save);
+	ril_devinfo_init();
+	ril_sim_init();
+	ril_voicecall_init();
+	ril_sms_init();
+	ril_netreg_init();
+	ril_call_volume_init();
+
+	return 0;
+}
+
+static void rilmodem_exit(void)
+{
+	DBG("");
+
+	ril_devinfo_exit();
+	ril_sim_exit();
+	ril_voicecall_exit();
+	ril_sms_exit();
+	ril_netreg_exit();
+	ril_call_volume_exit();
+}
+
+OFONO_PLUGIN_DEFINE(rilmodem, "RIL modem driver", VERSION,
+		OFONO_PLUGIN_PRIORITY_DEFAULT, rilmodem_init, rilmodem_exit)
